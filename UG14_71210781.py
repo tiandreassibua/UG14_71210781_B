@@ -38,16 +38,41 @@ class Graph:
     def addEdge(self, x, y):
         #menambah edge antara vertex x dan y
         # tulis kode Anda di sini
+        if x in self._data.keys() and y in self._data.keys():
+            self._data[x][0].add(y)
+            self._data[y][0].add(x)
         print()
 
     def edge(self):
         print("== Seluruh Edge == ")
         # tulis kode Anda di sini
+        listEdge = set()
+        for key in self._data.keys():
+            for item in self._data[key][0]:
+                if key+item not in listEdge and item+key not in listEdge:
+                    listEdge.add(key+item)
+
+        edge = sorted(listEdge)
+        for item in edge:
+            print(item, end=' ')
+            # print(f"{key} : {self._data[key][0]}")
         print("\n")
     
     # untuk pembacaan traversing bfs graph
     def bfs(self, node):
         # tulis kode Anda di sini
+        print("Traversing BFS = ", end="")
+        visited = []
+        queue = []
+        visited.append(node)
+        queue.append(node)
+        while queue:
+            s = queue.pop(0)
+            print(s, end=" ")
+            for neighbour in self._data[s][0]:
+                if neighbour not in visited:
+                    visited.append(neighbour)
+                    queue.append(neighbour)
         print("\n")
 
 graph = Graph()
@@ -60,13 +85,14 @@ graph.addVertex("f",3)
 graph.addVertex("g", 3)
 graph.addVertex("h", 3)
 
-# graph.addEdge('a', 'b')
-# graph.addEdge('b', 'c')
-# graph.addEdge('b', 'd')
-# graph.addEdge('c', 'g')
-# graph.addEdge('d', 'e')
-# graph.addEdge('f', 'h')
-# graph.addEdge('g', 'f')
+graph.addEdge('a', 'b')
+graph.addEdge('b', 'c')
+graph.addEdge('b', 'd')
+graph.addEdge('c', 'g')
+graph.addEdge('d', 'e')
+graph.addEdge('f', 'h')
+graph.addEdge('g', 'f')
 
 graph.vertex()
-# graph.edge()
+graph.edge()
+graph.bfs('a')
